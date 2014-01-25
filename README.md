@@ -6,6 +6,7 @@ recipes.php?count=10 (last 10 recipes)
 recipes.php (last 20 recipes)
 
 output:
+```
 [
   {
     "id": /* id of recipe */,
@@ -15,3 +16,4 @@ output:
     "text": /* text of recipe */
   }
 ]
+```
