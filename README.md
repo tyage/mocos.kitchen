@@ -1,20 +1,9 @@
 #Yet Another MOCO's Kitchen API
 
-## get all recipes
 request:
-recipes.php
-
-output:
-[
-  {
-    "id": /* id of recipe */,
-    "date": /* date of recipe */
-  }
-]
-
-## get detail of recipe
-request:
-recipes.php?id=$id1,$id2
+recipes.php?id=$id1,$id2 (recipes of $id1, $id2)
+recipes.php?count=10 (last 10 recipes)
+recipes.php (last 20 recipes)
 
 output:
 [

@@ -2,7 +2,18 @@
 require_once('../recipe_api.php');
 
 if (empty($_GET['id'])) {
-  $recipes = RecipeAPI::allList();
+  if (empty($_GET['count'])) {
+    $_GET['count'] = 20;
+  }
+  $recipes = array();
+  $recipeList = RecipeAPI::allList();
+  $i = 0;
+  foreach ($recipeList as $recipe) {
+    if (++$i > $_GET['count']) {
+      break;
+    }
+    $recipes[] = RecipeAPI::getInfo($recipe['id']);
+  }
 } else {
   $recipes = array();
   $idList = explode(',', $_GET['id']);

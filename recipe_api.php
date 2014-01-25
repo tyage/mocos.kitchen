@@ -16,7 +16,13 @@ class RecipeAPI {
 
   public static function getInfo($id) {
     $html = self::getHtml($id.'.html');
+    if (empty($html)) {
+      return array();
+    }
     $postElem = $html->find('.post', 0);
+    if (empty($postElem)) {
+      return array();
+    }
     $postHeaderElem = $postElem->find('.postHeader', 0);
     $bodyElem = $postElem->find('.text', 0)->find('.block', 0);
     $time = $postHeaderElem->find('time', 0)->innertext;
