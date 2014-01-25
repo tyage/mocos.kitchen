@@ -13,7 +13,18 @@ output:
     "title": /* title of recipe */,
     "time": /* time of recipe */,
     "image": /* image url of recipe */,
-    "text": /* text of recipe */
+    "items": [
+      {
+        "name": /* name of item */,
+        "quantity": /* quantity of item */
+      }
+    ],
+    "processes": [
+      /* processes of recipe */
+    ],
+    "points": [
+      /* points of recipe */
+    ]
   }
 ]
 ```

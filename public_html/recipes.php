@@ -12,7 +12,7 @@ if (empty($_GET['id'])) {
     if (++$i > $_GET['count']) {
       break;
     }
-    $recipes[] = RecipeAPI::getInfo($recipe['id']);
+    $recipes[] = RecipeAPI::getInfo($recipe);
   }
 } else {
   $recipes = array();

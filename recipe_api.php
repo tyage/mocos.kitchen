@@ -29,14 +29,44 @@ class RecipeAPI {
     $title = $postHeaderElem->find('h2', 0)->innertext;
     $image = $bodyElem->find('img', 0)->src;
     $text = $bodyElem->find('p', 0)->innertext;
+    preg_match('/^＜材料＞([^\x{ff1c}]+)＜作り方＞([^\x{ff1c}]+)＜ＰＯＩＮＴ＞([^\x{ff1c}]+)$/u', $text, $matches);
+    foreach ($matches as $i => $match) {
+      $matches[$i] = explode("<br>", $match);
+    }
+    $items = array();
+    foreach ($matches[1] as $i => $item) {
+      preg_match('/^(.*?)・・+(.*)$/u', $item, $list);
+      if (count($list) > 1) {
+        $items[] = array(
+          'name' => trim($list[1]),
+          'quantity' => trim($list[2])
+        );
+      }
+    }
 
     return array(
       'id' => $id,
       'title' => $title,
-      'time' => $time,
+      'time' => self::formatTime($time),
       'image' => self::BASE_URL.$image,
-      'text' => $text
+      'items' => $items,
+      'processes' => self::trimArray($matches[2]),
+      'points' => self::trimArray($matches[3])
     );
+  }
+
+  private static function formatTime($time) {
+    return preg_replace('/^(\d+)年(\d+)月(\d+)日放送/', '${1}-${2}-${3}', $time);
+  }
+  private static function trimArray($values) {
+    $result = array();
+    foreach ($values as $value) {
+      $trimedValue = trim($value);
+      if (!empty($trimedValue)) {
+        $result[] = $trimedValue;
+      }
+    }
+    return $result;
   }
 
   public static function allList() {
@@ -57,12 +87,8 @@ class RecipeAPI {
     $html = self::getHtml($file);
     foreach ($html->find('.archive', 0)->find('ul', 0)->find('li') as $post) {
       $url = $post->find('a', 0)->href;
-      $date = $post->find('time', 0)->innertext;
       $id = explode('.', $url)[0];
-      $recipes[] = array(
-        'id' => $id,
-        'date' => $date
-      );
+      $recipes[] = $id;
     }
     return $recipes;
   }
